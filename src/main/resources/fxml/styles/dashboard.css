@@ -1,0 +1,13 @@
+.root {
+    -fx-background-color: #F5F6FA;
+}
+
+.jfx-tree-table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 5;
+}
+
+.jfx-button:hover {
+    -fx-background-color: #1565C0;
+}

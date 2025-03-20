@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="817.0" prefWidth="1103.0" style="-fx-background-color: #f4f4f4;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gm.rahmanproperties.digibank.controllers.client.CreditCarteController">
+
+    <!-- Header -->
+    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #4682B4;"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Text fx:id="compteNumero" fill="WHITE" text="Compte: XXXX-XXXX">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Text>
+    </HBox>
+
+    <!-- Main Content -->
+    <StackPane fx:id="stackPane" layoutY="80.0" prefHeight="737.0" prefWidth="1103.0">
+        <HBox alignment="CENTER" spacing="50.0" layoutY="20.0">
+            <!-- Crédit Section -->
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0">
+                <Text text="Gestion des Crédits" style="-fx-font-size: 20px; -fx-fill: #4682B4;"/>
+                <Pane fx:id="creditPane" prefHeight="400.0" prefWidth="500.0"
+                      style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                </Pane>
+                <HBox spacing="20" layoutY="450.0">
+                    <JFXButton onAction="#demanderCredit" text="Demander Crédit"
+                               style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                    <JFXButton onAction="#rembourserCredit" text="Rembourser"
+                               style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                    <JFXButton onAction="#consulterEcheancier" text="Échéancier"
+                               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                </HBox>
+            </VBox>
+
+            <!-- Carte Section -->
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0">
+                <Text text="Gestion des Cartes" style="-fx-font-size: 20px; -fx-fill: #4682B4;"/>
+                <Pane fx:id="cartePane" prefHeight="400.0" prefWidth="500.0"
+                      style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                </Pane>
+                <HBox spacing="20" layoutY="450.0">
+                    <JFXButton onAction="#demanderCarte" text="Demander Carte"
+                               style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                    <JFXButton onAction="#bloquerCarte" text="Bloquer"
+                               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                    <JFXButton onAction="#debloquerCarte" text="Débloquer"
+                               style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+                        <minWidth>150.0</minWidth>
+                        <minHeight>40.0</minHeight>
+                    </JFXButton>
+                </HBox>
+            </VBox>
+        </HBox>
+    </StackPane>
+</AnchorPane>

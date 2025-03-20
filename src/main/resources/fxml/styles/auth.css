@@ -1,0 +1,27 @@
+.root {
+    -fx-background-color: #F5F6FA;
+}
+
+.input-field {
+    -jfx-focus-color: #4682B4;
+    -jfx-unfocus-color: #999999;
+    -fx-prompt-text-fill: #666666;
+    -fx-background-radius: 5;
+}
+
+.button-raised {
+    -jfx-button-type: RAISED;
+    -fx-background-color: #4682B4;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+}
+
+.button-raised:hover {
+    -fx-background-color: #5A9BD4;
+}
+
+.button-raised:pressed {
+    -fx-background-color: #3A6A9A;
+}

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="817.0" prefWidth="1103.0" style="-fx-background-color: #f4f4f4;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gm.rahmanproperties.digibank.controllers.client.ProfilClientController">
+
+    <!-- Header -->
+    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #4682B4;"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Text fx:id="profileNameClient" fill="WHITE" text="Profile Client">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Text>
+    </HBox>
+
+    <!-- Main Content -->
+    <StackPane fx:id="stackPane" layoutY="80.0" prefHeight="737.0" prefWidth="1103.0">
+        <Pane fx:id="allInfo" prefHeight="737.0" prefWidth="1103.0">
+            <Pane fx:id="infoClient" prefHeight="600.0" prefWidth="1103.0" layoutY="20.0">
+                <HBox alignment="CENTER" spacing="30.0" layoutX="150.0" layoutY="50.0">
+                    <!-- Solde -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0"
+                          style="-fx-background-color: #2ecc71; -fx-background-radius: 10;">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Text fill="WHITE" text="Solde">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="solde_tf" fill="WHITE" text="0.00 CFA">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Text>
+                    </VBox>
+
+                    <!-- Numéro de compte -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0"
+                          style="-fx-background-color: #3498db; -fx-background-radius: 10;">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Text fill="WHITE" text="Numéro Compte">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="numero_compte_tf" fill="WHITE" text="XXXX-XXXX">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Text>
+                    </VBox>
+
+                    <!-- Statut -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0"
+                          style="-fx-background-color: #e74c3c; -fx-background-radius: 10;">
+                        <padding>
+                            <Insets top="15" right="15" bottom="15" left="15"/>
+                        </padding>
+                        <Text fill="WHITE" text="Statut">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="status_tf" fill="WHITE" text="Actif">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Text>
+                    </VBox>
+                </HBox>
+            </Pane>
+        </Pane>
+    </StackPane>
+
+    <!-- Buttons -->
+    <HBox alignment="CENTER" spacing="30.0" layoutY="680.0" prefHeight="60.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <JFXButton onAction="#btnOuvertureCompte" text="Ouvrir un compte"
+                   style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <minWidth>200.0</minWidth>
+            <minHeight>40.0</minHeight>
+        </JFXButton>
+        <JFXButton onAction="#btnGestionTransaction" text="Gestion Transactions"
+                   style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <minWidth>200.0</minWidth>
+            <minHeight>40.0</minHeight>
+        </JFXButton>
+        <JFXButton onAction="#btnHistoriqueFinancier" text="Historique Financier"
+                   style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <minWidth>200.0</minWidth>
+            <minHeight>40.0</minHeight>
+        </JFXButton>
+    </HBox>
+</AnchorPane>
