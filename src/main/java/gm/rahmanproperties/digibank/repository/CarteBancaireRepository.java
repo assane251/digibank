@@ -54,4 +54,10 @@ public class CarteBancaireRepository {
             throw e;
         }
     }
+
+//    public CarteBancaire findByCarteBancaireJoinCompte(UUID carteId) {
+//        return entityManager.createQuery("SELECT c FROM CarteBancaire c JOIN FETCH c.compte WHERE c.id = CAST(:carteId AS string)", CarteBancaire.class)
+//                .setParameter("carteId", carteId.toString())
+//                .getSingleResult();
+//    }
 }

@@ -65,12 +65,9 @@ public class JavaMailer {
                     "<body>" +
                     "<div style='text-align: center;'><img src='cid:logoImage' alt='DigiBank' width='150'></div>" +
                     "<h2>Bienvenue chez <span style='color: #007bff;'>DigiBank</span></h2>" +
-                    "<p>Votre compte a été créé avec succès.</p>" +
-                    "<p><strong>Email :</strong> " + to + "</p>" +
-                    "<p><strong>Mot de passe par défaut :</strong> <span style='color: #007bff;'>passer123</span></p>" +
-                    "<p>Nous vous recommandons de changer votre mot de passe dès votre première connexion.</p>" +
+                    "<p>" + body + "</p>" +
                     "<hr><p>&copy; 2025 DigiBank. Tous droits réservés.</p>" +
-                    "</body></html>";
+                    "</body></html>";;
             htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
 
             MimeBodyPart imagePart = new MimeBodyPart();

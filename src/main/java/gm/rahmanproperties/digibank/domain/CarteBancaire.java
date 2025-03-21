@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,10 +20,10 @@ public class CarteBancaire {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(unique = true, nullable = false, length = 16)
+    @Column(unique = true, nullable = false)
     private String numero;
 
-    @Column(nullable = false, length = 3)
+    @Column(nullable = false)
     private String cvv;
 
     @Column(nullable = false)
@@ -33,7 +34,7 @@ public class CarteBancaire {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatutCarte statut = StatutCarte.ACTIVE;
+    private StatutCarte statut = StatutCarte.EN_ATTENTE;
 
     @Column(nullable = false, length = 4)
     private String codePin;
@@ -41,4 +42,17 @@ public class CarteBancaire {
     @ManyToOne
     @JoinColumn(name = "compte_id")
     private Compte compte;
+
+    @Override
+    public String toString() {
+        return "CarteBancaire{" +
+                "id=" + id +
+                ", numero='" + numero + '\'' +
+                ", cvv='" + cvv + '\'' +
+                ", dateExpiration='" + dateExpiration + '\'' +
+                ", statut='" + statut + '\'' +
+                ", codePin='" + codePin + '\'' +
+                ", compte=" + compte +
+                '}';
+    }
 }

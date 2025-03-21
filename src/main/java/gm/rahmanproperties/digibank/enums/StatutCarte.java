@@ -1,5 +1,5 @@
 package gm.rahmanproperties.digibank.enums;
 
 public enum StatutCarte {
-    ACTIVE, BLOQUEE
+    ACTIVE, BLOQUEE, EN_ATTENTE
 }

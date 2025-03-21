@@ -35,11 +35,11 @@ public class Transaction extends RecursiveTreeObject<Transaction> {
     @Column(nullable = false)
     private StatuTransaction status = StatuTransaction.EN_ATTENTE;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "compte_source_id")
     private Compte compteSource;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "compte_dest_id")
     private Compte compteDest;
 }

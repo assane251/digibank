@@ -12,26 +12,32 @@ import gm.rahmanproperties.digibank.domain.Compte;
 import gm.rahmanproperties.digibank.domain.Transaction;
 import gm.rahmanproperties.digibank.enums.Type;
 import gm.rahmanproperties.digibank.repository.TransactionRepository;
+import gm.rahmanproperties.digibank.service.CarteBancaireService;
 import gm.rahmanproperties.digibank.service.CompteService;
 import gm.rahmanproperties.digibank.service.TransactionService;
 import gm.rahmanproperties.digibank.service.UserSession;
+import gm.rahmanproperties.digibank.utils.JavaMailer;
+import gm.rahmanproperties.digibank.utils.Popup;
+import gm.rahmanproperties.digibank.utils.WindowManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import lombok.val;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
+import javax.mail.MessagingException;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -50,18 +56,34 @@ public class ProfilClientController implements Initializable {
     @FXML private Text solde_tf;
     @FXML private Text status_tf;
     @FXML private StackPane stackPane;
+    @FXML private TableView<Transaction> transactionsTable;
+    @FXML private TableColumn<Transaction, String> dateColumn;
+    @FXML private TableColumn<Transaction, String> typeColumn;
+    @FXML private TableColumn<Transaction, String> montantColumn;
+    @FXML private TableColumn<Transaction, String> statusColumn;
+    @FXML private Text cvv_tf;
+    @FXML private Text numeroCarte_tf;
+    @FXML private Text soldeCarte_tf;
+    @FXML private Text dateExpiration_tf;
+    @FXML private Text codePin_tf;
+    @FXML private Text statutCarte_tf;
+
 
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
-    CompteService compteService = new CompteService();
-    TransactionRepository transactionRepository = new TransactionRepository();
-    TransactionService transactionService = new TransactionService(transactionRepository, compteService); // À injecter
+    private final CompteService compteService = new CompteService();
+    private final TransactionRepository transactionRepository = new TransactionRepository();
+    private final TransactionService transactionService = new TransactionService(transactionRepository, compteService);
     private Compte currentCompte;
-    Client currentUser = UserSession.getInstance().getLoggedInClient();
+    private final Client currentUser = UserSession.getInstance().getLoggedInClient();
+    private final CarteBancaireService carteBancaireService = new CarteBancaireService();
+
+    String email = System.getenv("email");
+    String password = System.getenv("password");
+
+    JavaMailer javaMailer = new JavaMailer(email, password);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         if (currentUser == null) {
             infoClient.setVisible(false);
             profileNameClient.setText("Utilisateur non connecté");
@@ -69,15 +91,37 @@ public class ProfilClientController implements Initializable {
         }
 
         profileNameClient.setText(currentUser.getNom() + " " + currentUser.getPrenom());
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        montantColumn.setCellValueFactory(new PropertyValueFactory<>("montant"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+//        loadTransactions();
 
         if (currentUser.getComptes() != null && !currentUser.getComptes().isEmpty()) {
             currentCompte = currentUser.getComptes().get(0);
+//            System.out.println(carteBancaireService.getCarteBancaireJoinCompte(currentCompte.getId()));
             infoClient.setVisible(true);
             numero_compte_tf.setText(currentCompte.getNumero());
             solde_tf.setText(df.format(currentCompte.getSolde()) + " CFA");
             status_tf.setText(currentUser.getStatus().toString());
+            loadClientInfo();
         } else {
             infoClient.setVisible(false);
+        }
+    }
+
+    private void loadClientInfo() {
+        loadTransactions();
+    }
+
+    private void loadTransactions() {
+        List<Transaction> transactions = transactionService.getTransactionsByCompte(currentCompte.getId());
+        if (transactions.isEmpty()) {
+            Popup.showSuccessMessage("Aucune transaction effectuée");
+        } else {
+            transactionsTable.getItems().setAll(transactions);
+            transactionsTable.setVisible(true);
         }
     }
 
@@ -166,12 +210,16 @@ public class ProfilClientController implements Initializable {
             try {
                 BigDecimal montant = new BigDecimal(montantField.getText());
                 if (montant.compareTo(BigDecimal.ZERO) <= 0) {
-                    showError("Le montant doit être positif");
+                    Popup.showErrorMessage("Le montant doit être positif");
                     return;
                 }
                 handleDepot(montant);
+                javaMailer.sendEmail(currentUser.getEmail(), "Dépôt", "Vous avez effectué un dépôt de " + montant + " CFA");
             } catch (NumberFormatException ex) {
                 showError("Montant invalide");
+                Popup.showErrorMessage("Montant invalide");
+            } catch (MessagingException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
@@ -199,8 +247,12 @@ public class ProfilClientController implements Initializable {
                     return;
                 }
                 handleRetrait(montant);
+                javaMailer.sendEmail(currentUser.getEmail(), "Retrait", "Vous avez effectué un retrait de " + montant + " CFA");
             } catch (NumberFormatException ex) {
+                Popup.showErrorMessage("Montant invalide");
                 showError("Montant invalide");
+            } catch (MessagingException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
@@ -227,17 +279,22 @@ public class ProfilClientController implements Initializable {
                 BigDecimal montant = new BigDecimal(montantField.getText());
                 String destNumero = destField.getText();
                 if (montant.compareTo(BigDecimal.ZERO) <= 0) {
+                    Popup.showErrorMessage("Montant invalide");
                     showError("Le montant doit être positif");
                     return;
                 }
                 Compte compteDest = compteService.findByNumero(destNumero);
                 if (compteDest == null) {
+                    Popup.showErrorMessage("Montant invalide");
                     showError("Compte destinataire non trouvé");
                     return;
                 }
                 handleVirement(montant, compteDest.getId());
+                javaMailer.sendEmail(currentUser.getEmail(), "Virement", "Vous avez effectué un virement de " + montant + " CFA");
             } catch (NumberFormatException ex) {
                 showError("Montant invalide");
+            } catch (MessagingException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
@@ -279,20 +336,20 @@ public class ProfilClientController implements Initializable {
         showDialog(content);
     }
 
-    private void showSuccess(String message) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Succès"));
-        content.setBody(new Label(message));
-        showDialog(content);
-    }
+//    private void showSuccess(String message) {
+//        JFXDialogLayout content = new JFXDialogLayout();
+//        content.setHeading(new Text("Succès"));
+//        content.setBody(new Label(message));
+//        showDialog(content);
+//    }
 
     private void handleDepot(BigDecimal montant) {
         try {
             transactionService.createDepot(currentCompte.getId(), montant);
             updateUI();
-            showSuccess("Dépôt effectué avec succès");
+            Popup.showSuccessMessage("Dépôt effectué avec succès");
         } catch (Exception e) {
-            showError("Erreur lors du dépôt: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors du dépôt: " + e.getMessage());
         }
     }
 
@@ -300,9 +357,9 @@ public class ProfilClientController implements Initializable {
         try {
             transactionService.createRetrait(currentCompte.getId(), montant);
             updateUI();
-            showSuccess("Retrait effectué avec succès");
+            Popup.showErrorMessage("Retrait effectué avec succès");
         } catch (Exception e) {
-            showError("Erreur lors du retrait: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors du retrait: " + e.getMessage());
         }
     }
 
@@ -310,9 +367,9 @@ public class ProfilClientController implements Initializable {
         try {
             transactionService.createVirement(currentCompte.getId(), compteDestId, montant);
             updateUI();
-            showSuccess("Virement effectué avec succès");
+            Popup.showErrorMessage("Virement effectué avec succès");
         } catch (Exception e) {
-            showError("Erreur lors du virement: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors du virement: " + e.getMessage());
         }
     }
 
@@ -328,9 +385,9 @@ public class ProfilClientController implements Initializable {
                                 t.getDate(), t.getType(), df.format(t.getMontant()), t.getStatus())));
             }
             document.close();
-            showSuccess("PDF exporté avec succès");
+            Popup.showSuccessMessage("PDF exporté avec succès");
         } catch (Exception e) {
-            showError("Erreur lors de l'export PDF: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors de l'export PDF: " + e.getMessage());
         }
     }
 
@@ -355,9 +412,9 @@ public class ProfilClientController implements Initializable {
             try (FileOutputStream fileOut = new FileOutputStream("historique.xlsx")) {
                 workbook.write(fileOut);
             }
-            showSuccess("Excel exporté avec succès");
+            Popup.showSuccessMessage("Excel exporté avec succès");
         } catch (Exception e) {
-            showError("Erreur lors de l'export Excel: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors de l'export Excel: " + e.getMessage());
         }
     }
 
@@ -373,9 +430,9 @@ public class ProfilClientController implements Initializable {
             compteService.creerCompte(currentUser, type, BigDecimal.valueOf(Long.parseLong(solde_tf.getText())));
             currentCompte = compte;
             updateUI();
-            showSuccess("Compte créé avec succès");
+            Popup.showSuccessMessage("Compte créé avec succès");
         } catch (Exception e) {
-            showError("Erreur lors de la création du compte: " + e.getMessage());
+            Popup.showErrorMessage("Erreur lors de la création du compte: " + e.getMessage());
         }
     }
 
@@ -383,5 +440,9 @@ public class ProfilClientController implements Initializable {
         solde_tf.setText(df.format(currentCompte.getSolde()) + " CFA");
         numero_compte_tf.setText(currentCompte.getNumero());
         infoClient.setVisible(true);
+    }
+
+    public void btnDemandeCarte(ActionEvent event) {
+        WindowManager.openParentAndChild("/fxml/client/credit_carte.fxml", "Carte Bancaire");
     }
 }

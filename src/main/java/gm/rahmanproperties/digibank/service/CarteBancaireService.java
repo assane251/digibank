@@ -11,11 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class CarteBancaireService {
-    private final CarteBancaireRepository carteRepository;
-
-    public CarteBancaireService(CarteBancaireRepository carteRepository) {
-        this.carteRepository = carteRepository;
-    }
+    private final CarteBancaireRepository carteRepository = new CarteBancaireRepository();
 
     public CarteBancaire demanderCarte(Compte compte) {
         String numero = genererNumeroCarte();
@@ -66,4 +62,8 @@ public class CarteBancaireService {
     private String genererPin() {
         return String.format("%04d", new Random().nextInt(10000));
     }
+
+//    public CarteBancaire getCarteBancaireJoinCompte(UUID carteId) {
+//        return carteRepository.findByCarteBancaireJoinCompte(carteId);
+//    }
 }

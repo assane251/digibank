@@ -5,6 +5,7 @@ import gm.rahmanproperties.digibank.domain.FraisBancaire;
 import gm.rahmanproperties.digibank.utils.JpaUtil;
 import jakarta.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.logging.Logger;
 

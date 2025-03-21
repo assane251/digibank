@@ -20,55 +20,40 @@ public class TransactionService {
         this.compteService = compteService;
     }
 
-    public Transaction createDepot(UUID compteId, BigDecimal montant) {
+    public void createDepot(UUID compteId, BigDecimal montant) {
         Compte compte = compteService.findById(compteId);
-        if (compte == null) throw new IllegalArgumentException("Compte non trouvé");
-
         Transaction transaction = Transaction.builder()
-                .id(UUID.randomUUID())
                 .type(TypeTransaction.DEPOT)
                 .montant(montant)
                 .date(LocalDateTime.now())
                 .status(StatuTransaction.REUSSI)
-                .compteDest(compte)
+                .compteSource(compte)
                 .build();
+        transactionRepository.save(transaction);
 
         compte.setSolde(compte.getSolde().add(montant));
         compteService.update(compte);
-        return transactionRepository.save(transaction);
     }
 
-    public Transaction createRetrait(UUID compteId, BigDecimal montant) {
+    public void createRetrait(UUID compteId, BigDecimal montant) {
         Compte compte = compteService.findById(compteId);
-        if (compte == null) throw new IllegalArgumentException("Compte non trouvé");
-        if (compte.getSolde().compareTo(montant) < 0)
-            throw new IllegalStateException("Solde insuffisant");
-
         Transaction transaction = Transaction.builder()
-                .id(UUID.randomUUID())
                 .type(TypeTransaction.RETRAIT)
                 .montant(montant)
                 .date(LocalDateTime.now())
                 .status(StatuTransaction.REUSSI)
                 .compteSource(compte)
                 .build();
+        transactionRepository.save(transaction);
 
         compte.setSolde(compte.getSolde().subtract(montant));
         compteService.update(compte);
-        return transactionRepository.save(transaction);
     }
 
-    public Transaction createVirement(UUID compteSourceId, UUID compteDestId, BigDecimal montant) {
+    public void createVirement(UUID compteSourceId, UUID compteDestId, BigDecimal montant) {
         Compte compteSource = compteService.findById(compteSourceId);
         Compte compteDest = compteService.findById(compteDestId);
-
-        if (compteSource == null || compteDest == null)
-            throw new IllegalArgumentException("Compte source ou destination non trouvé");
-        if (compteSource.getSolde().compareTo(montant) < 0)
-            throw new IllegalStateException("Solde insuffisant");
-
         Transaction transaction = Transaction.builder()
-                .id(UUID.randomUUID())
                 .type(TypeTransaction.VIREMENT)
                 .montant(montant)
                 .date(LocalDateTime.now())
@@ -76,12 +61,10 @@ public class TransactionService {
                 .compteSource(compteSource)
                 .compteDest(compteDest)
                 .build();
+        transactionRepository.save(transaction);
 
         compteSource.setSolde(compteSource.getSolde().subtract(montant));
         compteDest.setSolde(compteDest.getSolde().add(montant));
-        compteService.update(compteSource);
-        compteService.update(compteDest);
-        return transactionRepository.save(transaction);
     }
 
     public List<Transaction> getTransactionsByCompte(UUID compteId) {
