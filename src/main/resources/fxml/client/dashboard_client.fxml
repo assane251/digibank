@@ -115,37 +115,37 @@
                     </VBox>
                 </HBox>
             </VBox>
+
+                        <!-- Transactions Table -->
+            <TableView fx:id="transactionsTable" layoutX="148.0" layoutY="381.0" prefHeight="348.0" prefWidth="988.0" visible="false">
+                <columns>
+                    <TableColumn fx:id="dateColumn" prefWidth="250.0" text="Date">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="date" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="typeColumn" prefWidth="250.0" text="Type">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="type" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="montantColumn" prefWidth="250.0" text="Montant">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="montant" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="statusColumn" prefWidth="215.0" text="Statut">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="status" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
         </Pane>
     </StackPane>
-
-               <!-- Transactions Table -->
-      <TableView fx:id="transactionsTable" layoutX="95.0" layoutY="452.0" prefHeight="407.0" prefWidth="1110.0" visible="false">
-          <columns>
-              <TableColumn fx:id="dateColumn" prefWidth="250.0" text="Date">
-                  <cellValueFactory>
-                      <PropertyValueFactory property="date" />
-                  </cellValueFactory>
-              </TableColumn>
-              <TableColumn fx:id="typeColumn" prefWidth="250.0" text="Type">
-                  <cellValueFactory>
-                      <PropertyValueFactory property="type" />
-                  </cellValueFactory>
-              </TableColumn>
-              <TableColumn fx:id="montantColumn" prefWidth="250.0" text="Montant">
-                  <cellValueFactory>
-                      <PropertyValueFactory property="montant" />
-                  </cellValueFactory>
-              </TableColumn>
-              <TableColumn fx:id="statusColumn" prefWidth="250.0" text="Statut">
-                  <cellValueFactory>
-                      <PropertyValueFactory property="status" />
-                  </cellValueFactory>
-              </TableColumn>
-          </columns>
-          <columnResizePolicy>
-              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-          </columnResizePolicy>
-      </TableView>
 
     <!-- Buttons -->
     <HBox alignment="CENTER" layoutY="858.0" prefHeight="60.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

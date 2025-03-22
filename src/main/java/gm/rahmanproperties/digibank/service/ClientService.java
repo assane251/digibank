@@ -100,7 +100,7 @@ public class ClientService {
         }
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         client.setPassword(hashedPassword);
-        client.setFirstLogin(false);
+        client.setFirstLogin(true);
         clientRepository.update(client);
     }
 

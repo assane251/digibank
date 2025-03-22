@@ -96,47 +96,6 @@ public class DashboardAdminController implements Initializable {
             }
         });
 
-        actionColumn.setCellValueFactory(param -> {
-            Client client = param.getValue();
-            JFXButton viewButton = new JFXButton("Voir");
-            viewButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-
-            JFXButton activateButton = new JFXButton("Activer");
-            activateButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
-            activateButton.setDisable(client.getStatus() == Status.ACTIF); // Disable if already active
-
-            // Action for "Voir" button
-            viewButton.setOnAction(event -> {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/client_details.fxml"));
-                try {
-                    Parent root = loader.load();
-//                    ClientDetailsController controller = loader.getController();
-//                    controller.loadClientData(client);
-                    JFXDialogLayout dialogLayout = new JFXDialogLayout();
-                    dialogLayout.setBody(root);
-                    JFXDialog dialog = new JFXDialog(dialogRoot, dialogLayout, JFXDialog.DialogTransition.CENTER);
-                    dialog.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            // Action for "Activer" button
-            activateButton.setOnAction(event -> {
-                try {
-                    activateClient(client);
-                    loadData();
-                    Popup.showSuccessMessage("Client activé et compte créé avec succès !");
-                } catch (Exception e) {
-                    Popup.showErrorMessage("Erreur lors de l'activation : " + e.getMessage());
-                }
-            });
-
-            HBox actionBox = new HBox(10, viewButton, activateButton);
-            actionBox.setPadding(new Insets(5));
-            return new SimpleObjectProperty<>(actionBox);
-        });
-
         clientTable.setItems(clientData);
     }
 

@@ -68,7 +68,6 @@ public class ProfilClientController implements Initializable {
     @FXML private Text codePin_tf;
     @FXML private Text statutCarte_tf;
 
-
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
     private final CompteService compteService = new CompteService();
     private final TransactionRepository transactionRepository = new TransactionRepository();
@@ -96,14 +95,12 @@ public class ProfilClientController implements Initializable {
         montantColumn.setCellValueFactory(new PropertyValueFactory<>("montant"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-//        loadTransactions();
-
         if (currentUser.getComptes() != null && !currentUser.getComptes().isEmpty()) {
             currentCompte = currentUser.getComptes().get(0);
-//            System.out.println(carteBancaireService.getCarteBancaireJoinCompte(currentCompte.getId()));
             infoClient.setVisible(true);
             numero_compte_tf.setText(currentCompte.getNumero());
-            solde_tf.setText(df.format(currentCompte.getSolde()) + " CFA");
+            BigDecimal solde = currentCompte.getSolde();
+            solde_tf.setText(solde != null ? df.format(solde) + " CFA" : "0.00 CFA");
             status_tf.setText(currentUser.getStatus().toString());
             loadClientInfo();
         } else {
@@ -185,11 +182,14 @@ public class ProfilClientController implements Initializable {
         Label info = new Label("Créer un nouveau compte bancaire");
         JFXButton courantBtn = createStyledButton("Compte Courant");
         JFXButton epargneBtn = createStyledButton("Compte Épargne");
+        JFXTextField txtSolde = new JFXTextField();
+        txtSolde.setPromptText("Solde");
 
-        courantBtn.setOnAction(e -> createCompte(Type.COURANT));
-        epargneBtn.setOnAction(e -> createCompte(Type.EPARGNE));
+        // Pass the txtSolde field directly to createCompte
+        courantBtn.setOnAction(e -> createCompte(Type.COURANT, txtSolde));
+        epargneBtn.setOnAction(e -> createCompte(Type.EPARGNE, txtSolde));
 
-        body.getChildren().addAll(info, courantBtn, epargneBtn);
+        body.getChildren().addAll(info, courantBtn, epargneBtn, txtSolde);
         content.setBody(body);
 
         showDialog(content);
@@ -285,7 +285,7 @@ public class ProfilClientController implements Initializable {
                 }
                 Compte compteDest = compteService.findByNumero(destNumero);
                 if (compteDest == null) {
-                    Popup.showErrorMessage("Montant invalide");
+                    Popup.showErrorMessage("Compte destinataire non trouvé");
                     showError("Compte destinataire non trouvé");
                     return;
                 }
@@ -336,13 +336,6 @@ public class ProfilClientController implements Initializable {
         showDialog(content);
     }
 
-//    private void showSuccess(String message) {
-//        JFXDialogLayout content = new JFXDialogLayout();
-//        content.setHeading(new Text("Succès"));
-//        content.setBody(new Label(message));
-//        showDialog(content);
-//    }
-
     private void handleDepot(BigDecimal montant) {
         try {
             transactionService.createDepot(currentCompte.getId(), montant);
@@ -357,7 +350,7 @@ public class ProfilClientController implements Initializable {
         try {
             transactionService.createRetrait(currentCompte.getId(), montant);
             updateUI();
-            Popup.showErrorMessage("Retrait effectué avec succès");
+            Popup.showSuccessMessage("Retrait effectué avec succès");
         } catch (Exception e) {
             Popup.showErrorMessage("Erreur lors du retrait: " + e.getMessage());
         }
@@ -367,7 +360,7 @@ public class ProfilClientController implements Initializable {
         try {
             transactionService.createVirement(currentCompte.getId(), compteDestId, montant);
             updateUI();
-            Popup.showErrorMessage("Virement effectué avec succès");
+            Popup.showSuccessMessage("Virement effectué avec succès");
         } catch (Exception e) {
             Popup.showErrorMessage("Erreur lors du virement: " + e.getMessage());
         }
@@ -418,16 +411,35 @@ public class ProfilClientController implements Initializable {
         }
     }
 
-    private void createCompte(Type type) {
+    // Updated createCompte to accept txtSolde as a parameter
+    private void createCompte(Type type, JFXTextField txtSolde) {
         try {
+            BigDecimal solde;
+            String soldeInput = txtSolde.getText().trim();
+            if (soldeInput.isEmpty()) {
+                Popup.showErrorMessage("Veuillez entrer un solde initial.");
+                return;
+            }
+            try {
+                solde = new BigDecimal(soldeInput);
+                if (solde.compareTo(BigDecimal.ZERO) < 0) {
+                    Popup.showErrorMessage("Le solde ne peut pas être négatif.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Popup.showErrorMessage("Montant invalide ! Veuillez entrer un nombre valide.");
+                return;
+            }
+
             Compte compte = Compte.builder()
                     .numero("COMP" + UUID.randomUUID().toString().substring(0, 8))
                     .type(type)
-                    .solde(BigDecimal.ZERO)
+                    .solde(solde)
                     .dateCreation(LocalDate.now())
                     .client(UserSession.getInstance().getLoggedInClient())
                     .build();
-            compteService.creerCompte(currentUser, type, BigDecimal.valueOf(Long.parseLong(solde_tf.getText())));
+
+            compteService.creerCompte(currentUser, type, solde);
             currentCompte = compte;
             updateUI();
             Popup.showSuccessMessage("Compte créé avec succès");
@@ -437,7 +449,8 @@ public class ProfilClientController implements Initializable {
     }
 
     private void updateUI() {
-        solde_tf.setText(df.format(currentCompte.getSolde()) + " CFA");
+        BigDecimal solde = currentCompte.getSolde();
+        solde_tf.setText(solde != null ? df.format(solde) + " CFA" : "0.00 CFA");
         numero_compte_tf.setText(currentCompte.getNumero());
         infoClient.setVisible(true);
     }

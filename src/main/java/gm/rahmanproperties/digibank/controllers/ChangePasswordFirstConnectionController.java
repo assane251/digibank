@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import lombok.Setter;
 
+import javax.mail.MessagingException;
 import java.util.Objects;
 
 public class ChangePasswordFirstConnectionController {
@@ -34,7 +35,7 @@ public class ChangePasswordFirstConnectionController {
     private String username;
 
     @FXML
-    public void handleSavePassword() {
+    public void handleSavePassword() throws MessagingException {
         String newPassword = newPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
@@ -52,6 +53,8 @@ public class ChangePasswordFirstConnectionController {
             adminService.updateAdminPassword(username, newPassword);
         } else {
             clientService.updateClientPassword(username, newPassword);
+            javaMailer.sendEmail(username, "Modification de mot de passe", "Vous avez modifier votre mot de passe\nUsername: " + "<strong>" +
+                    username+"</strong>\nMot de passe: " + "<strong>"+newPassword+"</strong>\n");
         }
 
         Stage stage = (Stage) saveButton.getScene().getWindow();

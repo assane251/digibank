@@ -85,7 +85,7 @@ public class ConnexionController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         if (admin != null && BCrypt.checkpw(password, admin.getPassword())) {
-            if (admin.isFirstLogin()) {
+            if (!admin.isFirstLogin()) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/change_password_first_connection.fxml"));
                     Scene scene = new Scene(loader.load());
@@ -98,6 +98,12 @@ public class ConnexionController {
 
                     admin = adminService.authenticateAdmin(username);
                     if (admin.isFirstLogin()) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Premiere connexion");
+                        alert.setHeaderText("Authentification");
+                        alert.setContentText("Vous devez changer votre mot de passe avant de continuer.");
+                        alert.showAndWait();
+
                         Popup.showErrorMessage("Vous devez changer votre mot de passe avant de continuer.");
                         return;
                     }
@@ -110,7 +116,7 @@ public class ConnexionController {
             return;
         } else if (client != null && BCrypt.checkpw(password, client.getPassword())) {
 
-            if (client.isFirstLogin()) {
+            if (!client.isFirstLogin()) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/change_password_first_connection.fxml"));
                     Scene scene = new Scene(loader.load());
@@ -123,6 +129,12 @@ public class ConnexionController {
 
                     client = clientService.existByEmail(username);
                     if (client.isFirstLogin()) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Premiere connexion");
+                        alert.setHeaderText("Authentification");
+                        alert.setContentText("Vous devez changer votre mot de passe avant de continuer.");
+                        alert.showAndWait();
+
                         Popup.showErrorMessage("Vous devez changer votre mot de passe avant de continuer.");
                         return;
                     }

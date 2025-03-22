@@ -25,7 +25,7 @@ public class AdminRepository {
     }
 
     public boolean existsByUsername(String username) {
-        Long count = entityManager.createQuery("SELECT COUNT(a) FROM Admin a WHERE a.username = :username and firstLogin = true", Long.class)
+        Long count = entityManager.createQuery("SELECT COUNT(a) FROM Admin a WHERE a.username = :username", Long.class)
                 .setParameter("username", username)
                 .getSingleResult();
         return count <= 0;
