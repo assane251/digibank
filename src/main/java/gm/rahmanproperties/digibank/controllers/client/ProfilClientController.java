@@ -67,6 +67,7 @@ public class ProfilClientController implements Initializable {
     @FXML private Text dateExpiration_tf;
     @FXML private Text codePin_tf;
     @FXML private Text statutCarte_tf;
+    @FXML private VBox carteBox;
 
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
     private final CompteService compteService = new CompteService();
@@ -105,6 +106,18 @@ public class ProfilClientController implements Initializable {
             loadClientInfo();
         } else {
             infoClient.setVisible(false);
+        }
+
+        if (currentCompte.getCartes() != null && !currentCompte.getCartes().isEmpty()) {
+            carteBox.setVisible(true);
+            cvv_tf.setText(currentCompte.getCartes().get(0).getCvv());
+            numeroCarte_tf.setText(currentCompte.getCartes().get(0).getNumero());
+            soldeCarte_tf.setText(String.valueOf(currentCompte.getCartes().get(0).getSolde()));
+            dateExpiration_tf.setText(currentCompte.getCartes().get(0).getDateExpiration().toString());
+//            codePin_tf.setText(currentCompte.getCartes().get(0).getCodePin());
+            statutCarte_tf.setText(currentCompte.getCartes().get(0).getStatut().name());
+        } else {
+            carteBox.setVisible(false);
         }
     }
 

@@ -83,7 +83,7 @@
             </Pane>
 
                <!-- Carte Bancaire -->
-            <VBox alignment="CENTER" layoutX="150.0" layoutY="168.0" prefHeight="200.0" prefWidth="988.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-color: #dddddd; -fx-border-width: 1;">
+            <VBox fx:id="carteBox" alignment="CENTER" layoutX="150.0" layoutY="168.0" prefHeight="200.0" prefWidth="988.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-color: #dddddd; -fx-border-width: 1;">
                 <padding>
                     <Insets bottom="15" left="15" right="15" top="15" />
                 </padding>

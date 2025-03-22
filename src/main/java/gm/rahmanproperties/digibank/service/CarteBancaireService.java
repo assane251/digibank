@@ -21,7 +21,7 @@ public class CarteBancaireService {
                 .numero(numero)
                 .cvv(cvv)
                 .dateExpiration(LocalDate.now().plusYears(3))
-                .statut(StatutCarte.ACTIVE)
+                .statut(StatutCarte.EN_ATTENTE)
                 .codePin(pin)
                 .compte(compte)
                 .build();

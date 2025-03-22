@@ -29,7 +29,7 @@ public class Popup {
         fxPopup.add(successMessage);
     }
 
-    private void showError(String message) {
+    public static void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(null);
@@ -37,7 +37,7 @@ public class Popup {
         alert.showAndWait();
     }
 
-    private void showSuccess(String message) {
+    public static void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
         alert.setHeaderText(null);

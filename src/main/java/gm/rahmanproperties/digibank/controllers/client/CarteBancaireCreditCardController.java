@@ -3,24 +3,28 @@ package gm.rahmanproperties.digibank.controllers.client;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import gm.rahmanproperties.digibank.domain.CarteBancaire;
+import gm.rahmanproperties.digibank.domain.Client;
 import gm.rahmanproperties.digibank.domain.Compte;
 import gm.rahmanproperties.digibank.enums.StatutCarte;
 import gm.rahmanproperties.digibank.service.CarteBancaireService;
+import gm.rahmanproperties.digibank.service.UserSession;
+import gm.rahmanproperties.digibank.utils.Popup;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class CarteBancaireCreditCardController {
+public class CarteBancaireCreditCardController implements Initializable {
     @FXML
     private JFXTextField numeroCarteField, cvvField, dateExpirationField, soldeField, statutField, codePinField;
     @FXML
     private JFXButton demanderCarteButton, bloquerCarteButton, debloquerCarteButton;
-    @FXML
-    private Text messageText;
     @FXML
     private Text compteNumero;
     @FXML
@@ -31,15 +35,20 @@ public class CarteBancaireCreditCardController {
     private Pane creditPane;
 
     private final CarteBancaireService carteService = new CarteBancaireService();
-    private Compte compte;
+    private final Client currentUser = UserSession.getInstance().getLoggedInClient();
+    private Compte currentCompte;
+
+    boolean validateFieldSold() {
+        return !soldeField.getText().trim().isEmpty();
+    }
 
     public void setCompte(Compte compte) {
-        this.compte = compte;
+        this.currentCompte = compte;
         chargerDetailsCarte();
     }
 
     private void chargerDetailsCarte() {
-        CarteBancaire carte = compte.getCartes().get(0);
+        CarteBancaire carte = currentCompte.getCartes().get(0);
         if (carte != null) {
             numeroCarteField.setText(carte.getNumero());
             cvvField.setText(carte.getCvv());
@@ -49,8 +58,6 @@ public class CarteBancaireCreditCardController {
             codePinField.setText(carte.getCodePin());
         }
     }
-
-
 
     @FXML
     public void demanderCredit() {
@@ -69,32 +76,50 @@ public class CarteBancaireCreditCardController {
 
     @FXML
     public void demanderCarte() {
-        CarteBancaire nouvelleCarte = carteService.demanderCarte(compte);
-        messageText.setText("Nouvelle carte générée : " + nouvelleCarte.getNumero());
+        if (!validateFieldSold()) {
+            Popup.showErrorMessage("Veuillez saisir le solde!!!");
+            Popup.showError("Veuillez saisir le solde!!!");
+            return;
+        }
+        CarteBancaire nouvelleCarte = carteService.demanderCarte(currentCompte);
+        Popup.showSuccess("Nouvelle carte générée : " + nouvelleCarte.getNumero());
+        Popup.showSuccessMessage("Nouvelle carte générée : " + nouvelleCarte.getNumero());
         chargerDetailsCarte();
     }
 
     @FXML
     public void bloquerCarte() {
-        CarteBancaire carte = compte.getCartes().get(0);
+        CarteBancaire carte = currentCompte.getCartes().get(0);
         if (carte != null) {
             carteService.bloquerCarte(UUID.fromString(carte.getId()));
-            statutField.setText("BLOQUÉE");
-            messageText.setText("Carte bloquée avec succès.");
+            statutField.setText(StatutCarte.BLOQUEE.name());
+            Popup.showSuccess("Carte bloquée avec succès " + carte.getNumero());
+            Popup.showSuccessMessage("Carte bloquée avec succès " + carte.getNumero());
         } else {
-            messageText.setText("Aucune carte associée.");
+            Popup.showError("Aucune carte associée.");
+            Popup.showErrorMessage("Aucune carte associée.");
         }
     }
 
     @FXML
     public void debloquerCarte() {
-        CarteBancaire carte = compte.getCartes().get(0);
+        CarteBancaire carte = currentCompte.getCartes().get(0);
         if (carte != null && Objects.equals(carte.getStatut(), StatutCarte.BLOQUEE)) {
             carte.setStatut(StatutCarte.ACTIVE);
             statutField.setText("ACTIVE");
-            messageText.setText("Carte débloquée avec succès.");
+            Popup.showSuccess("Carte débloquée avec succès. " + carte.getNumero());
+            Popup.showSuccessMessage("Carte débloquée avec succès. " + carte.getNumero());
         } else {
-            messageText.setText("La carte n'est pas bloquée ou n'existe pas.");
+            Popup.showError("La carte n'est pas bloquée ou n'existe pas.");
+            Popup.showErrorMessage("La carte n'est pas bloquée ou n'existe pas.");
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (currentUser.getComptes() != null && !currentUser.getComptes().isEmpty()) {
+            currentCompte = currentUser.getComptes().get(0);
+        }
+        numeroCarteField.setText(currentCompte.getNumero());
     }
 }
