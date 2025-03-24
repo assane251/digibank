@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,10 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="946.0" prefWidth="1328.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.digibank.controllers.client.ProfilClientController">
+<?import com.jfoenix.controls.JFXButton?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #2c3e50;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.optibank.controllers.client.ProfilClientController">
 
     <!-- Header -->
-    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #4682B4;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #4682B4;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Text fx:id="profileNameClient" fill="WHITE" text="Profile Client">
             <font>
                 <Font name="System Bold" size="28.0" />
@@ -26,11 +26,11 @@
 
     <!-- Main Content -->
     <StackPane fx:id="stackPane" layoutY="80.0" prefHeight="737.0" prefWidth="1328.0">
-        <Pane fx:id="allInfo" prefHeight="737.0" prefWidth="1103.0">
-            <Pane fx:id="infoClient" layoutY="-2.0" prefHeight="746.0" prefWidth="1310.0">
-                <HBox alignment="CENTER" layoutX="149.0" layoutY="39.0" prefHeight="120.0" prefWidth="988.0" spacing="30.0">
+        <Pane fx:id="allInfo" prefHeight="737.0" prefWidth="1103.0" style="-fx-background-color: #4682B4;">
+            <Pane fx:id="infoClient" layoutX="-3.0" layoutY="4.0" prefHeight="730.0" prefWidth="1335.0" style="-fx-background-color: #2c3e50;">
+                <HBox alignment="CENTER" layoutX="198.0" layoutY="25.0" prefHeight="120.0" prefWidth="845.0" spacing="30.0">
                     <!-- Solde -->
-                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 10;">
+                    <VBox alignment="CENTER" prefHeight="77.0" prefWidth="220.0" style="-fx-background-color: #2c3e50; -fx-background-radius: 10;">
                         <padding>
                             <Insets bottom="15" left="15" right="15" top="15" />
                         </padding>
@@ -47,7 +47,7 @@
                     </VBox>
 
                     <!-- Numéro de compte -->
-                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0" style="-fx-background-color: #3498db; -fx-background-radius: 10;">
+                    <VBox alignment="CENTER" prefHeight="96.0" prefWidth="259.0" style="-fx-background-color: #2c3e50; -fx-background-radius: 10;">
                         <padding>
                             <Insets bottom="15" left="15" right="15" top="15" />
                         </padding>
@@ -64,7 +64,7 @@
                     </VBox>
 
                     <!-- Statut -->
-                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0" style="-fx-background-color: #e74c3c; -fx-background-radius: 10;">
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="250.0" style="-fx-background-color: #2c3e50; -fx-background-radius: 10;">
                         <padding>
                             <Insets bottom="15" left="15" right="15" top="15" />
                         </padding>
@@ -80,38 +80,66 @@
                         </Text>
                     </VBox>
                 </HBox>
+              <JFXButton layoutX="1100.0" layoutY="147.0" onAction="#btnDemandeCarte" style="-fx-background-color: #7e3ce7; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Demande carte">
+                  <font>
+                      <Font name="System Bold" size="14.0" />
+                  </font>
+                  <minWidth>200.0</minWidth>
+                  <minHeight>40.0</minHeight>
+              </JFXButton>
+              <JFXButton layoutX="1100.0" layoutY="218.0" onAction="#btnHistoriqueFinancier" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Historique Financier">
+                  <font>
+                      <Font name="System Bold" size="14.0" />
+                  </font>
+                  <minWidth>200.0</minWidth>
+                  <minHeight>40.0</minHeight>
+              </JFXButton>
+              <JFXButton layoutX="1100.0" layoutY="73.0" onAction="#btnGestionTransaction" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Gestion Transactions">
+                  <font>
+                      <Font name="System Bold" size="14.0" />
+                  </font>
+                  <minWidth>200.0</minWidth>
+                  <minHeight>40.0</minHeight>
+              </JFXButton>
+              <JFXButton layoutX="1100.0" layoutY="293.0" onAction="#btnOuvertureCompte" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Ouvrir un compte">
+                  <font>
+                      <Font name="System Bold" size="14.0" />
+                  </font>
+                  <minWidth>200.0</minWidth>
+                  <minHeight>40.0</minHeight>
+              </JFXButton>
             </Pane>
 
-               <!-- Carte Bancaire -->
-            <VBox fx:id="carteBox" alignment="CENTER" layoutX="150.0" layoutY="168.0" prefHeight="200.0" prefWidth="988.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-border-color: #dddddd; -fx-border-width: 1;">
+                  <!-- Carte Bancaire -->
+            <VBox fx:id="carteBox" alignment="CENTER" layoutX="150.0" layoutY="168.0" prefHeight="200.0" prefWidth="771.0" spacing="10.0" style="-fx-background-color: #2c3e50; -fx-background-radius: 10; -fx-border-color: #dddddd; -fx-border-width: 1;">
                 <padding>
                     <Insets bottom="15" left="15" right="15" top="15" />
                 </padding>
-                <Text fill="#333333" text="Carte Bancaire">
+                <Text fill="#f2f0f0" text="Carte Bancaire">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Text>
-                <HBox alignment="CENTER" spacing="30.0">
+                <HBox alignment="CENTER" prefHeight="37.0" prefWidth="871.0" spacing="30.0">
                     <VBox alignment="CENTER" spacing="5.0">
-                        <Text fill="#333333" text="Numéro de la carte" />
-                        <Text fx:id="numeroCarte_tf" fill="#333333" text="XXXX-XXXX-XXXX-XXXX" />
+                        <Text fill="#e9e4e4" text="Numéro de la carte" />
+                        <Text fx:id="numeroCarte_tf" fill="WHITE" text="XXXX-XXXX-XXXX-XXXX" />
                     </VBox>
                     <VBox alignment="CENTER" spacing="5.0">
-                        <Text fill="#333333" text="CVV" />
-                        <Text fx:id="cvv_tf" fill="#333333" text="XXX" />
+                        <Text fill="#fbf5f5" text="CVV" />
+                        <Text fx:id="cvv_tf" fill="WHITE" text="XXX" />
                     </VBox>
                     <VBox alignment="CENTER" spacing="5.0">
-                        <Text fill="#333333" text="Date d'expiration" />
-                        <Text fx:id="dateExpiration_tf" fill="#333333" text="MM/YY" />
+                        <Text fill="#fdf7f7" text="Date d'expiration" />
+                        <Text fx:id="dateExpiration_tf" fill="WHITE" text="MM/YY" />
                     </VBox>
                     <VBox alignment="CENTER" spacing="5.0">
-                        <Text fill="#333333" text="Solde" />
-                        <Text fx:id="soldeCarte_tf" fill="#333333" text="0.00 CFA" />
+                        <Text fill="WHITE" text="Solde" />
+                        <Text fx:id="soldeCarte_tf" fill="#fbfbfb" text="0.00 CFA" />
                     </VBox>
                     <VBox alignment="CENTER" spacing="5.0">
-                        <Text fill="#333333" text="Statut" />
-                        <Text fx:id="statutCarte_tf" fill="#333333" text="EN_ATTENTE" />
+                        <Text fill="WHITE" text="Statut" />
+                        <Text fx:id="statutCarte_tf" fill="#fdf7f7" text="EN_ATTENTE" />
                     </VBox>
                 </HBox>
             </VBox>
@@ -148,34 +176,5 @@
     </StackPane>
 
     <!-- Buttons -->
-    <HBox alignment="CENTER" layoutY="858.0" prefHeight="60.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <JFXButton onAction="#btnOuvertureCompte" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Ouvrir un compte">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-            <minWidth>200.0</minWidth>
-            <minHeight>40.0</minHeight>
-        </JFXButton>
-        <JFXButton onAction="#btnGestionTransaction" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Gestion Transactions">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-            <minWidth>200.0</minWidth>
-            <minHeight>40.0</minHeight>
-        </JFXButton>
-        <JFXButton onAction="#btnHistoriqueFinancier" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Historique Financier">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-            <minWidth>200.0</minWidth>
-            <minHeight>40.0</minHeight>
-        </JFXButton>
-        <JFXButton onAction="#btnDemandeCarte" style="-fx-background-color: #7e3ce7; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Demande carte">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-            <minWidth>200.0</minWidth>
-            <minHeight>40.0</minHeight>
-        </JFXButton>
-    </HBox>
+    <HBox alignment="CENTER" layoutY="858.0" prefHeight="60.0" spacing="30.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 </AnchorPane>

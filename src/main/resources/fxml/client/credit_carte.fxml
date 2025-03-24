@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="878.0" prefWidth="1261.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.digibank.controllers.client.CarteBancaireCreditCardController">
+<AnchorPane prefHeight="878.0" prefWidth="1261.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.optibank.controllers.client.CarteBancaireCreditCardController">
 
     <!-- Header -->
-    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #4682B4;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Text fx:id="compteNumero" fill="WHITE" text="Compte: XXXX-XXXX">
             <font>
                 <Font name="System Bold" size="28.0" />
@@ -24,11 +18,11 @@
 
     <!-- Main Content -->
     <StackPane fx:id="stackPane" layoutY="80.0" prefHeight="798.0" prefWidth="1261.0">
-        <HBox alignment="CENTER" layoutY="20.0" spacing="50.0">
+        <HBox alignment="CENTER" layoutY="20.0" spacing="50.0" style="-fx-background-color: #2c3e50;">
             <!-- Crédit Section -->
             <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0">
-                <Text style="-fx-font-size: 20px; -fx-fill: #4682B4;" text="Gestion des Crédits" />
-                <Pane fx:id="creditPane" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                <Text fill="WHITE" style="-fx-font-size: 20px; -fx-fill: #ffff;" text="Gestion des Crédits" />
+                <Pane fx:id="creditPane" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #2c3e50; -fx-border-color: #ddd; -fx-border-radius: 5;">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
@@ -57,8 +51,8 @@
 
             <!-- Carte Section -->
             <VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0">
-                <Text style="-fx-font-size: 20px; -fx-fill: #4682B4;" text="Gestion des Cartes" />
-                <Pane prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                <Text style="-fx-font-size: 20px; -fx-fill: #ffff;" text="Gestion des Cartes" />
+                <Pane prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #2c3e50; -fx-border-color: #ddd; -fx-border-radius: 5;">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
@@ -71,15 +65,15 @@
                     <JFXTextField fx:id="codePinField" editable="false" layoutX="312.0" layoutY="220.0" prefHeight="40.0" prefWidth="169.0" promptText="Code PIN" style="-fx-background-color: #ffffff; -fx-border-color: #00796b; -fx-border-radius: 5; -fx-padding: 10;" />
                 </Pane>
                 <HBox layoutY="450.0" spacing="20">
-                    <JFXButton onAction="#demanderCarte" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Demander Carte">
+                    <JFXButton onAction="#demanderCarte" style="-fx-background-color: #22313f; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Demander Carte">
                         <minWidth>150.0</minWidth>
                         <minHeight>40.0</minHeight>
                     </JFXButton>
-                    <JFXButton onAction="#bloquerCarte" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Bloquer">
+                    <JFXButton onAction="#bloquerCarte" style="-fx-background-color: #191970; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Bloquer">
                         <minWidth>150.0</minWidth>
                         <minHeight>40.0</minHeight>
                     </JFXButton>
-                    <JFXButton onAction="#debloquerCarte" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Débloquer">
+                    <JFXButton onAction="#debloquerCarte" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Débloquer">
                         <minWidth>150.0</minWidth>
                         <minHeight>40.0</minHeight>
                     </JFXButton>

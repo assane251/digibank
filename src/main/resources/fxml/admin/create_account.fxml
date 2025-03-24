@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<AnchorPane prefHeight="661.0" prefWidth="1081.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.digibank.controllers.client.CreateAccountController">
-    <TabPane prefHeight="789.0" prefWidth="1081.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane prefHeight="661.0" prefWidth="1081.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gm.rahmanproperties.optibank.controllers.client.CreateAccountController">
+    <TabPane prefHeight="789.0" prefWidth="1081.0" style="-fx-background-color: #2c3e50;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <!-- Tab pour Ajouter Client -->
         <Tab text="Ajouter Client">
             <AnchorPane prefHeight="760.0" prefWidth="1081.0">
-                <VBox alignment="CENTER" spacing="30" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox alignment="CENTER" spacing="30" style="-fx-background-color: #2c3e50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <padding>
                         <Insets bottom="60" left="60" right="60" top="60" />
                     </padding>
-                    <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #4682B4;" text="Créer un compte" />
+                    <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #ffff;" text="Créer un compte" />
                     <VBox alignment="CENTER" maxWidth="500.0" spacing="25">
                         <JFXTextField fx:id="nomField" focusColor="#4682B4" maxWidth="500.0" prefHeight="45.0" promptText="Nom" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                             <font>
@@ -54,7 +46,7 @@
                                 <Font name="Liberation Sans" size="16.0" />
                             </font>
                         </JFXTextField>
-                        <JFXButton onAction="#handleCreateAccount" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4682B4; -fx-text-fill: white; -fx-background-radius: 5;" text="Créer">
+                        <JFXButton onAction="#handleCreateAccount" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-background-radius: 5;" text="Créer">
                             <font>
                                 <Font name="Liberation Sans" size="16.0" />
                             </font>
@@ -71,7 +63,7 @@
                     <padding>
                         <Insets bottom="40" left="40" right="40" top="40" />
                     </padding>
-                    <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #4682B4;" text="Liste des Clients" />
+                    <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #ffff;" text="Liste des Clients" />
                     <TableView fx:id="clientTable" maxWidth="1000.0" prefHeight="600.0" style="-fx-background-color: #ffffff; -fx-border-radius: 5; -fx-border-color: #ddd; -fx-alignment: CENTER;" tableMenuButtonVisible="true">
                         <columns>
                             <TableColumn fx:id="nomColumn" prefWidth="200.0" text="Nom">
@@ -124,7 +116,7 @@
                     <JFXComboBox fx:id="clientComboBox" labelFloat="true" maxWidth="400.0" prefHeight="45.0" promptText="Sélectionner un client" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" />
                     <Text fx:id="currentStatusText" style="-fx-font-size: 18px; -fx-fill: #7f8c8d;" text="Statut actuel: N/A" />
                     <HBox alignment="CENTER" spacing="30">
-                        <JFXButton onAction="#handleActivate" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 5;" text="Activer">
+                        <JFXButton onAction="#handleActivate" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-background-radius: 5;" text="Activer">
                             <font>
                                 <Font name="Liberation Sans" size="16.0" />
                             </font>

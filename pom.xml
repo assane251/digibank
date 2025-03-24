@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gm.rahmanproperties</groupId>
-    <artifactId>digibank</artifactId>
+    <artifactId>optibank</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>DigiBank</name>
 
@@ -14,7 +14,7 @@
         <junit.version>5.10.2</junit.version>
         <db.postgres.url>jdbc:postgresql://localhost:5432/digibank</db.postgres.url>
         <db.postgres.user>postgres</db.postgres.user>
-        <db.postgres.password>Assane45678</db.postgres.password>
+        <db.postgres.password>motdepasse</db.postgres.password>
     </properties>
 
     <dependencies>
@@ -144,7 +144,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>gm.rahmanproperties.digibank/gm.rahmanproperties.digibank.App
+                            <mainClass>gm.rahmanproperties.digibank/gm.rahmanproperties.optibank.App
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
